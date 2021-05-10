@@ -1,0 +1,38 @@
+plugins {
+	id 'org.springframework.boot' version '2.4.5'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id 'java'
+	id 'maven-publish'
+}
+
+group = 'hanchen'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+repositories {
+	mavenCentral()
+	maven {
+		url = uri('https://ksqldb-maven.s3.amazonaws.com/maven/')
+	}
+
+	maven {
+		url = uri('https://jenkins-confluent-packages-beta-maven.s3.amazonaws.com/6.2.0-beta210310224144-cp8/1/maven/')
+	}
+
+	maven {
+		url = uri('https://repo.maven.apache.org/maven2/')
+	}
+}
+
+dependencies {
+	implementation ('org.springframework.boot:spring-boot-starter-webflux')
+	implementation ('org.springframework.boot:spring-boot-starter-data-mongodb-reactive')
+	implementation ('org.projectlombok:lombok')
+	annotationProcessor "org.projectlombok:lombok"
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'io.projectreactor:reactor-test'
+}
+
+test {
+	useJUnitPlatform()
+}
