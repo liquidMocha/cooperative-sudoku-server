@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class SpringPushEventToyApplication {
+public class CooperativeSudokuServerApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(SpringPushEventToyApplication.class, args);
+		SpringApplication.run(CooperativeSudokuServerApplication.class, args);
 	}
 
 }
