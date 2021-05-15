@@ -6,7 +6,6 @@ import org.springframework.data.mongodb.core.ChangeStreamEvent;
 import org.springframework.data.mongodb.core.ChangeStreamOptions;
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -22,21 +21,8 @@ import static org.springframework.data.mongodb.core.query.Criteria.where;
 @RestController
 @AllArgsConstructor
 public class PushEventController {
-    GameCrudRepository gameRepository;
+    private final GameCrudRepository gameRepository;
     private final ReactiveMongoTemplate reactiveTemplate;
-
-    @GetMapping(path = "/stream-events", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-    public Flux<Game> streamFlux() {
-        ChangeStreamOptions options = ChangeStreamOptions.builder()
-                .returnFullDocumentOnUpdate()
-                .build();
-
-        return reactiveTemplate.changeStream(
-                "game",
-                options,
-                Game.class
-        ).map(ChangeStreamEvent::getBody);
-    }
 
     @PostMapping("/start")
     public Mono<Game> startGame() {
@@ -100,10 +86,7 @@ public class PushEventController {
     }
 
     @PostMapping("/{gameId}/move")
-    public Mono<Game> makeMove(
-            @PathVariable String gameId,
-            @RequestBody Move move
-    ) {
+    public Mono<Game> makeMove(@PathVariable String gameId, @RequestBody Move move) {
         return gameRepository.findById(gameId).flatMap(game -> {
             //race condition
             List<Move> moves = game.getMoves();
