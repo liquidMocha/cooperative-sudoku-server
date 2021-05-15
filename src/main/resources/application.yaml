@@ -1,6 +1,4 @@
 spring:
   data:
     mongodb:
-      database: test_db
-      port: 30001
-      host: localhost
+      uri: mongodb://localhost:30001/test_db
